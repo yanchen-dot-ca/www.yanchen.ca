@@ -2,8 +2,14 @@
 
 `www.yanchen.ca/udid` mirrors udid.tech:
 
-1. The page's **Get My UDID** button downloads `udid.mobileconfig`
-   (static, served by GitHub Pages). It is an Apple *Profile Service*
+1. The page's **Get My UDID** button downloads the profile from
+   `https://udid.yanchen.ca/profile.mobileconfig`. The file itself
+   lives in this repo (`udid.mobileconfig`, static on GitHub Pages),
+   but GitHub Pages serves it as `application/octet-stream`, and
+   Safari only hands a download to the profile installer when the
+   MIME type is `application/x-apple-aspen-config` — so the Worker
+   re-serves the same bytes with the correct headers. It is an
+   Apple *Profile Service*
    profile: when the user installs it, iOS POSTs the device's UDID,
    product, iOS version and serial to the profile's callback URL.
 2. The callback is `https://udid.yanchen.ca/enroll` — GitHub Pages

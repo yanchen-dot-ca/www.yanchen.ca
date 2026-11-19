@@ -39,6 +39,23 @@ export default {
       return Response.redirect(RESULT_PAGE + "#" + params.toString(), 302);
     }
 
+    // The profile itself lives in the GitHub Pages repo as the single
+    // source of truth, but GitHub Pages serves it as
+    // application/octet-stream — and the aspen-config MIME type is
+    // what tells Safari to hand the download to the profile
+    // installer. Re-serve it here with the right headers.
+    if (request.method === "GET" && url.pathname === "/profile.mobileconfig") {
+      const res = await fetch("https://www.yanchen.ca/udid.mobileconfig");
+      if (!res.ok) return new Response("Profile unavailable", { status: 502 });
+      return new Response(await res.arrayBuffer(), {
+        headers: {
+          "content-type": "application/x-apple-aspen-config",
+          "content-disposition": "attachment; filename=udid.mobileconfig",
+          "cache-control": "no-store",
+        },
+      });
+    }
+
     if (request.method === "GET" && url.pathname === "/") {
       return new Response(
         "udid.yanchen.ca — UDID callback is running. " +
