@@ -3,73 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get UDID — yanchen.ca</title>
-<style>
-  body { font-family: -apple-system, system-ui, sans-serif; margin: 2.5rem 1.25rem; text-align: center; color: #1c1c1e; }
-  h1 { font-size: 1.5rem; }
-  p, li { color: #555; line-height: 1.5; }
-  a.btn { display: inline-block; margin: 1rem 0; padding: 0.8rem 2rem; background: #0071e3; color: #fff;
-          border-radius: 999px; text-decoration: none; font-size: 1.05rem; }
-  ol { text-align: left; max-width: 26rem; margin: 1rem auto; padding-left: 1.4rem; }
-  .card { max-width: 30rem; margin: 1.5rem auto; padding: 1.25rem; border: 1px solid #d2d2d7; border-radius: 16px; }
-  .udid { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; word-break: break-all;
-          color: #1c1c1e; margin: 0.75rem 0; }
-  .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; font-size: 0.95rem; }
-  .row span:first-child { color: #86868b; }
-  .row span:last-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; text-align: right; }
-  button.copy { padding: 0.55rem 1.4rem; border: none; border-radius: 999px; background: #0071e3; color: #fff; font-size: 0.95rem; }
-  .note { font-size: 0.85rem; color: #86868b; max-width: 26rem; margin: 1rem auto; }
-  #result { display: none; }
-  #warn { display: none; color: #b25000; }
-</style>
+<title>Get UDID — moved</title>
+<script>
+  // The UDID checker now lives at udid.yanchen.ca. Keep any result
+  // fragment (#udid=...) intact across the move.
+  location.replace('https://udid.yanchen.ca/' + location.hash);
+</script>
+<meta http-equiv="refresh" content="0; url=https://udid.yanchen.ca/">
 </head>
 <body>
-<h1>Get UDID</h1>
-<p>Find your iPhone or iPad UDID in seconds. No computer needed.</p>
-
-<div id="result" class="card">
-  <p style="margin:0"><strong>Your UDID</strong></p>
-  <p class="udid" id="udidValue"></p>
-  <button class="copy" id="copyBtn">Copy UDID</button>
-  <div id="details" style="margin-top:1rem"></div>
-  <p class="note">Done? Remove the temporary profile: Settings → General → VPN &amp; Device Management → <em>yanchen.ca — Get UDID</em> → Remove Profile.</p>
-</div>
-
-<p id="warn">Open this page on your iPhone or iPad <strong>in Safari</strong> — profiles can only be installed from Safari.</p>
-<a class="btn" href="https://udid.yanchen.ca/profile.mobileconfig">Get My UDID</a>
-
-<ol>
-  <li>Tap <strong>Get My UDID</strong> and allow the configuration profile to download.</li>
-  <li>Open <strong>Settings</strong> → tap <strong>Profile Downloaded</strong> at the top.</li>
-  <li>Tap <strong>Install</strong> — you'll be sent back here with your UDID.</li>
-</ol>
-
-<p class="note">Private by design: the profile only asks iOS for your device identifiers and hands them straight back to this page. The UDID is returned in the address fragment (after the #), which browsers never send to a server, and nothing is stored.</p>
-
-<script>
-  var params = new URLSearchParams(location.hash.slice(1));
-  var udid = params.get('udid');
-  if (udid) {
-    document.getElementById('udidValue').textContent = udid;
-    var rows = [['Product', params.get('product')], ['iOS Version', params.get('version')], ['Serial', params.get('serial')]];
-    document.getElementById('details').innerHTML = rows.filter(function (r) { return r[1]; })
-      .map(function (r) { return '<div class="row"><span>' + r[0] + '</span><span></span></div>'; }).join('');
-    var spans = document.querySelectorAll('#details .row span:last-child');
-    rows.filter(function (r) { return r[1]; }).forEach(function (r, i) { spans[i].textContent = r[1]; });
-    document.getElementById('result').style.display = 'block';
-    document.getElementById('copyBtn').addEventListener('click', function () {
-      var btn = this;
-      function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy UDID'; }, 1500); }
-      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(udid).then(done, done); }
-      else {
-        var t = document.createElement('textarea'); t.value = udid; document.body.appendChild(t);
-        t.select(); try { document.execCommand('copy'); } catch (e) {} t.remove(); done();
-      }
-    });
-  }
-  if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-    document.getElementById('warn').style.display = 'block';
-  }
-</script>
+<p>The UDID checker has moved to <a href="https://udid.yanchen.ca/">udid.yanchen.ca</a>.</p>
 </body>
 </html>
